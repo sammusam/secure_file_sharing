@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: secure-file-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host=0.0.0.0 --port=10000
+    envVars:
+      - key: SECRET_KEY
+        value: kA4LAMZngteN3b0XBbScOStzlrAhiuTPtP49Dq4JVn0
+      - key: MONGO_URI
+        value: mongodb+srv://your_user:your_pass@your_cluster.mongodb.net
