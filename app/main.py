@@ -8,18 +8,23 @@ import base64
 
 app = FastAPI()
 
+# Routers
 app.include_router(client_user.router)
 app.include_router(ops_user.router)
 
+# Health check endpoint
+@app.get("/")
+def root():
+    return {"message": "Secure File Sharing API is running 🚀"}
+
+# Ping DB
 @app.get("/ping")
 def ping():
     return {"message": "MongoDB is alive 🧠"}
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="client/login")
-@app.get("/")
-def root():
-    return {"message": "Secure File Sharing API is running 🚀"}
 
+# Secure download
 @app.get("/download/{encrypted_id}")
 def secure_download(encrypted_id: str, token: str = Depends(oauth2_scheme)):
     payload = decode_access_token(token)
